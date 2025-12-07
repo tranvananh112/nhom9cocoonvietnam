@@ -4,6 +4,7 @@ import { Be_Vietnam_Pro, Playfair_Display } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { AnalyticsProvider } from "@/components/analytics-provider"
 import { ChristmasEffects } from "@/components/christmas-effects"
+import { ThemeToggle } from "@/components/theme-toggle"
 import "./globals.css"
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -41,6 +42,7 @@ export default function RootLayout({
     <html lang="vi">
       <body className={`${beVietnamPro.variable} ${playfairDisplay.variable} font-sans antialiased`}>
         <ChristmasEffects />
+        <ThemeToggle />
         <AnalyticsProvider>{children}</AnalyticsProvider>
         <Analytics />
       </body>
