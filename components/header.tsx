@@ -20,87 +20,123 @@ export function Header() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/logo.png"
-            alt="Cocoon Logo"
-            width={40}
-            height={40}
-            className="object-contain"
-          />
-          <div className="flex flex-col">
-            <span className="font-serif text-xl font-semibold text-primary">Cocoon nhom 9    </span>
-            <span className="text-[10px] text-muted-foreground">Thuần chay Việt Nam</span>
-          </div>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Actions */}
-        <div className="flex items-center gap-4">
-          <Link href="/cart" className="relative">
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingBag className="h-5 w-5" />
-              {totalItems > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
-                  {totalItems}
-                </span>
-              )}
-            </Button>
+    <>
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/logo.png"
+              alt="Cocoon Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+            <div className="flex flex-col">
+              <span className="font-serif text-xl font-semibold text-primary">Cocoon nhom 9    </span>
+              <span className="text-[10px] text-muted-foreground">Thuần chay Việt Nam</span>
+            </div>
           </Link>
 
-          <Link href="/admin" className="hidden md:block">
-            <Button variant="outline" size="sm" className="gap-2 bg-transparent">
-              <User className="h-4 w-4" />
-              Admin
-            </Button>
-          </Link>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
-          {/* Mobile Menu */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
+          {/* Actions */}
+          <div className="flex items-center gap-4">
+            <Link href="/cart" className="relative">
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingBag className="h-5 w-5" />
+                {totalItems > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                    {totalItems}
+                  </span>
+                )}
               </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[280px]">
-              <nav className="flex flex-col gap-4 mt-8">
-                {navLinks.map((link) => (
+            </Link>
+
+            <Link href="/admin" className="hidden md:block">
+              <Button variant="outline" size="sm" className="gap-2 bg-transparent">
+                <User className="h-4 w-4" />
+                Admin
+              </Button>
+            </Link>
+
+            {/* Mobile Menu */}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild className="md:hidden">
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[280px]">
+                <nav className="flex flex-col gap-4 mt-8">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="text-lg font-medium text-foreground/80 transition-colors hover:text-primary"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
                   <Link
-                    key={link.href}
-                    href={link.href}
+                    href="/admin"
                     onClick={() => setIsOpen(false)}
                     className="text-lg font-medium text-foreground/80 transition-colors hover:text-primary"
                   >
-                    {link.label}
+                    Admin
                   </Link>
-                ))}
-                <Link
-                  href="/admin"
-                  onClick={() => setIsOpen(false)}
-                  className="text-lg font-medium text-foreground/80 transition-colors hover:text-primary"
-                >
-                  Admin
-                </Link>
-              </nav>
-            </SheetContent>
-          </Sheet>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </header>
+
+      {/* Christmas Banner - Chữ chạy */}
+      <div className="w-full py-2 overflow-hidden bg-background">
+        <div className="animate-marquee whitespace-nowrap">
+          <span className="font-bold text-lg mx-8 bg-gradient-to-r from-red-600 via-green-600 to-red-600 bg-clip-text text-transparent">
+            Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
+          </span>
+          <span className="font-bold text-lg mx-8 bg-gradient-to-r from-green-600 via-red-600 to-green-600 bg-clip-text text-transparent">
+            Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
+          </span>
+          <span className="font-bold text-lg mx-8 bg-gradient-to-r from-red-600 via-green-600 to-red-600 bg-clip-text text-transparent">
+            Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
+          </span>
+          <span className="font-bold text-lg mx-8 bg-gradient-to-r from-green-600 via-red-600 to-green-600 bg-clip-text text-transparent">
+            Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
+          </span>
         </div>
       </div>
-    </header>
+
+      <style jsx>{`
+        @keyframes marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        .animate-marquee {
+          display: inline-block;
+          animation: marquee 25s linear infinite;
+        }
+      `}</style>
+    </>
   )
 }
