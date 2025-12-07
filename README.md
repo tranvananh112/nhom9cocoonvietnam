@@ -1,30 +1,76 @@
-# Greeting
+# Cocoon Vietnam - Website Mỹ Phẩm Thuần Chay
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+Website thương mại điện tử cho thương hiệu mỹ phẩm thuần chay Cocoon Vietnam.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/tva1/v0-greeting-p2)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/ded5Ng2vPXr)
+## 🚀 Công nghệ sử dụng
 
-## Overview
+- **Next.js 16** - React Framework
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **Supabase** - Database & Authentication
+- **Zustand** - State Management
+- **Radix UI** - UI Components
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+## 📦 Cài đặt
 
-## Deployment
+```bash
+# Clone repository
+git clone https://github.com/tranvananh112/nhom9cocoonvietnam.git
+cd nhom9cocoonvietnam
 
-Your project is live at:
+# Cài đặt dependencies
+npm install
 
-**[https://vercel.com/tva1/v0-greeting-p2](https://vercel.com/tva1/v0-greeting-p2)**
+# Tạo file .env.local và thêm Supabase credentials
+cp .env.example .env.local
 
-## Build your app
+# Chạy development server
+npm run dev
+```
 
-Continue building your app on:
+## 🌐 Deploy lên Vercel
 
-**[https://v0.app/chat/ded5Ng2vPXr](https://v0.app/chat/ded5Ng2vPXr)**
+1. Push code lên GitHub
+2. Import project vào Vercel
+3. Thêm Environment Variables:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+4. Deploy
 
-## How It Works
+## 📝 Environment Variables
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+Tạo file `.env.local` với nội dung:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+## 🎯 Tính năng
+
+- ✅ Trang chủ với hero section
+- ✅ Danh sách sản phẩm
+- ✅ Giỏ hàng
+- ✅ Thanh toán
+- ✅ Quản lý đơn hàng
+- ✅ Trang quản trị
+- ✅ Responsive design
+- ✅ SEO optimized
+
+## 📱 Scripts
+
+```bash
+npm run dev      # Chạy development server
+npm run build    # Build production
+npm run start    # Chạy production server
+npm run lint     # Lint code
+```
+
+## 🔗 Links
+
+- **Website**: https://nhom9cocoonvietnam.vercel.app
+- **GitHub**: https://github.com/tranvananh112/nhom9cocoonvietnam
+
+## 👥 Nhóm phát triển
+
+Nhóm 9 - Cocoon Vietnam
