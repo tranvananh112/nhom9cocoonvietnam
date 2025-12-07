@@ -167,3 +167,5 @@ Nhóm 9 - Cocoon Vietnam
 ---
 
 Made with ❤️ using Next.js & Supabase
+
+**Note**: Ensure Environment Variables are set in Vercel!
