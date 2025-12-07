@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Be_Vietnam_Pro, Playfair_Display } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { AnalyticsProvider } from "@/components/analytics-provider"
+import { ChristmasEffects } from "@/components/christmas-effects"
 import "./globals.css"
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -39,6 +40,7 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className={`${beVietnamPro.variable} ${playfairDisplay.variable} font-sans antialiased`}>
+        <ChristmasEffects />
         <AnalyticsProvider>{children}</AnalyticsProvider>
         <Analytics />
       </body>
