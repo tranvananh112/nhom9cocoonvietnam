@@ -104,39 +104,6 @@ export function Header() {
         </div>
       </header>
 
-      {/* Christmas Banner - Chữ chạy */}
-      <div className="w-full overflow-hidden bg-background">
-        <div className="animate-marquee whitespace-nowrap">
-          <span className="font-bold text-lg mx-8 bg-gradient-to-r from-red-600 via-green-600 to-red-600 bg-clip-text text-transparent">
-            Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
-          </span>
-          <span className="font-bold text-lg mx-8 bg-gradient-to-r from-green-600 via-red-600 to-green-600 bg-clip-text text-transparent">
-            Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
-          </span>
-          <span className="font-bold text-lg mx-8 bg-gradient-to-r from-red-600 via-green-600 to-red-600 bg-clip-text text-transparent">
-            Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
-          </span>
-          <span className="font-bold text-lg mx-8 bg-gradient-to-r from-green-600 via-red-600 to-green-600 bg-clip-text text-transparent">
-            Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
-          </span>
-        </div>
-      </div>
-
-      <style jsx>{`
-        @keyframes marquee {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-
-        .animate-marquee {
-          display: inline-block;
-          animation: marquee 25s linear infinite;
-        }
-      `}</style>
     </>
   )
 }

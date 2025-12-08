@@ -165,19 +165,34 @@ INSERT INTO products (name, description, price, category, image) VALUES
 ('Mặt Nạ Đất Sét Nghệ', 'Mặt nạ đất sét kết hợp nghệ, làm sạch sâu lỗ chân lông', 165000, 'mask', '/natural-face-mask-turmeric.jpg');
 ```
 
-## Bước 3: Kiểm tra Tables đã tạo
+## Bước 3: Bật Realtime cho bảng Orders (QUAN TRỌNG!)
+
+**Để cập nhật trạng thái đơn hàng real-time, bạn PHẢI bật Realtime:**
+
+1. Vào **Database** → **Replication** (bên trái)
+2. Tìm bảng `orders` trong danh sách
+3. Bật toggle **Enable Realtime** cho bảng `orders`
+4. Click **Save** hoặc **Apply**
+
+**Hoặc chạy SQL này:**
+```sql
+-- Bật Realtime cho bảng orders
+ALTER PUBLICATION supabase_realtime ADD TABLE orders;
+```
+
+## Bước 4: Kiểm tra Tables đã tạo
 
 1. Vào **Table Editor** (biểu tượng bảng bên trái)
 2. Kiểm tra các bảng:
    - ✅ `products` - Có 10 sản phẩm mẫu
    - ✅ `customers` - Trống (sẽ tự động thêm khi có đơn hàng)
-   - ✅ `orders` - Trống (sẽ có khi khách đặt hàng)
+   - ✅ `orders` - Trống (sẽ có khi khách đặt hàng) **[Realtime ENABLED]**
    - ✅ `order_items` - Trống
    - ✅ `visitors` - Trống (sẽ tự động track)
    - ✅ `page_views` - Trống (sẽ tự động track)
    - ✅ `events` - Trống (sẽ tự động track)
 
-## Bước 4: Test kết nối
+## Bước 5: Test kết nối
 
 Sau khi deploy website lên Vercel với Environment Variables:
 - `NEXT_PUBLIC_SUPABASE_URL`

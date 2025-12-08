@@ -1,15 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import useSWR from "swr"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Clock, CheckCircle2, Truck, PackageCheck, RefreshCw, Search } from "lucide-react"
+import { Clock, CheckCircle2, Truck, PackageCheck, RefreshCw, Search, Wifi } from "lucide-react"
 import { formatPrice } from "@/lib/products"
 import { createClient } from "@/lib/supabase/client"
+import { toast } from "sonner"
+import { RealtimeStatus } from "./realtime-status"
 
 type OrderStatus = "pending" | "confirmed" | "shipping" | "delivered"
 
@@ -32,11 +34,52 @@ interface Order {
     }>
 }
 
-const statusConfig: Record<OrderStatus, { label: string; color: string; icon: React.ElementType }> = {
-    pending: { label: "Chờ xử lý", color: "bg-yellow-100 text-yellow-800", icon: Clock },
-    confirmed: { label: "Đã xác nhận", color: "bg-blue-100 text-blue-800", icon: CheckCircle2 },
-    shipping: { label: "Đang giao", color: "bg-purple-100 text-purple-800", icon: Truck },
-    delivered: { label: "Đã giao", color: "bg-green-100 text-green-800", icon: PackageCheck },
+const statusConfig: Record<OrderStatus, { label: string; color: string; icon: React.ElementType; step: number }> = {
+    pending: { label: "Chờ xử lý", color: "bg-yellow-100 text-yellow-800", icon: Clock, step: 1 },
+    confirmed: { label: "Đã xác nhận", color: "bg-blue-100 text-blue-800", icon: CheckCircle2, step: 2 },
+    shipping: { label: "Đang giao", color: "bg-purple-100 text-purple-800", icon: Truck, step: 3 },
+    delivered: { label: "Đã giao", color: "bg-green-100 text-green-800", icon: PackageCheck, step: 4 },
+}
+
+function OrderTimeline({ status }: { status: OrderStatus }) {
+    const currentStep = statusConfig[status].step
+    const steps = [
+        { status: "pending" as OrderStatus, label: "Chờ xử lý" },
+        { status: "confirmed" as OrderStatus, label: "Xác nhận" },
+        { status: "shipping" as OrderStatus, label: "Đang giao" },
+        { status: "delivered" as OrderStatus, label: "Đã giao" },
+    ]
+
+    return (
+        <div className="flex items-center justify-between w-full my-4">
+            {steps.map((step, index) => {
+                const StepIcon = statusConfig[step.status].icon
+                const isActive = statusConfig[step.status].step <= currentStep
+                const isCompleted = statusConfig[step.status].step < currentStep
+
+                return (
+                    <div key={step.status} className="flex flex-1 items-center">
+                        <div className="flex flex-col items-center">
+                            <div
+                                className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all ${isActive
+                                    ? "border-primary bg-primary text-primary-foreground"
+                                    : "border-muted bg-background text-muted-foreground"
+                                    }`}
+                            >
+                                <StepIcon className="h-5 w-5" />
+                            </div>
+                            <span className={`mt-2 text-xs font-medium text-center ${isActive ? "text-primary" : "text-muted-foreground"}`}>
+                                {step.label}
+                            </span>
+                        </div>
+                        {index < steps.length - 1 && (
+                            <div className={`flex-1 h-1 mx-2 rounded ${isCompleted ? "bg-primary" : "bg-muted"}`} />
+                        )}
+                    </div>
+                )
+            })}
+        </div>
+    )
 }
 
 const fetchOrders = async (phone: string) => {
@@ -68,10 +111,46 @@ export function OrderTrackingRealtime() {
         searchPhone ? `orders-${searchPhone}` : null,
         () => fetchOrders(searchPhone),
         {
-            refreshInterval: 5000, // Auto refresh mỗi 5 giây
             revalidateOnFocus: true,
+            revalidateOnReconnect: true,
         }
     )
+
+    // Supabase Realtime subscription - cập nhật ngay lập tức
+    useEffect(() => {
+        if (!searchPhone) return
+
+        const supabase = createClient()
+
+        // Subscribe to changes on orders table for this phone number
+        const channel = supabase
+            .channel(`orders-${searchPhone}`)
+            .on(
+                'postgres_changes',
+                {
+                    event: '*', // Listen to all events (INSERT, UPDATE, DELETE)
+                    schema: 'public',
+                    table: 'orders',
+                    filter: `customer_phone=eq.${searchPhone}`
+                },
+                (payload) => {
+                    console.log('Real-time update:', payload)
+                    // Refresh data immediately when change detected
+                    mutate()
+
+                    // Show notification
+                    if (payload.eventType === 'UPDATE') {
+                        toast.success('Đơn hàng đã được cập nhật!')
+                    }
+                }
+            )
+            .subscribe()
+
+        // Cleanup subscription on unmount
+        return () => {
+            supabase.removeChannel(channel)
+        }
+    }, [searchPhone, mutate])
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()
@@ -94,10 +173,13 @@ export function OrderTrackingRealtime() {
             {/* Search Form */}
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <Search className="h-5 w-5" />
-                        Tra cứu đơn hàng
-                    </CardTitle>
+                    <div className="flex items-center justify-between">
+                        <CardTitle className="flex items-center gap-2">
+                            <Search className="h-5 w-5" />
+                            Tra cứu đơn hàng
+                        </CardTitle>
+                        <RealtimeStatus />
+                    </div>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSearch} className="flex gap-4">
@@ -199,9 +281,10 @@ export function OrderTrackingRealtime() {
                         })
                     )}
 
-                    <p className="text-xs text-center text-muted-foreground">
-                        ⚡ Tự động cập nhật mỗi 5 giây
-                    </p>
+                    <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                        <Wifi className="h-3 w-3 text-green-600" />
+                        <span>Cập nhật real-time ngay lập tức - Không cần refresh trang</span>
+                    </div>
                 </div>
             )}
         </div>
