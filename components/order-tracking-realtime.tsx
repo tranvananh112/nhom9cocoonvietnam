@@ -41,14 +41,23 @@ const statusConfig: Record<OrderStatus, { label: string; color: string; icon: Re
 
 const fetchOrders = async (phone: string) => {
     if (!phone) return []
-    const supabase = createClient()
-    const { data, error } = await supabase
-        .from("orders")
-        .select("*, order_items(*)")
-        .eq("customer_phone", phone)
-        .order("created_at", { ascending: false })
-    if (error) throw error
-    return data as Order[]
+    try {
+        const supabase = createClient()
+        const { data, error } = await supabase
+            .from("orders")
+            .select("*, order_items(*)")
+            .eq("customer_phone", phone)
+            .order("created_at", { ascending: false })
+
+        if (error) {
+            console.error("Supabase error:", error)
+            return []
+        }
+        return data as Order[]
+    } catch (error) {
+        console.error("Fetch orders error:", error)
+        return []
+    }
 }
 
 export function OrderTrackingRealtime() {
