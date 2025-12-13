@@ -15,6 +15,7 @@ export function Header() {
   const navLinks = [
     { href: "/", label: "Trang chủ" },
     { href: "/products", label: "Sản phẩm" },
+    { href: "/articles", label: "Bài viết" },
     { href: "/about", label: "Về chúng tôi" },
     { href: "/orders", label: "Đơn hàng" },
   ]
@@ -33,7 +34,7 @@ export function Header() {
               className="object-contain"
             />
             <div className="flex flex-col">
-              <span className="font-serif text-xl font-semibold text-primary">Cocoon nhom 9    </span>
+              <span className="font-serif text-xl font-semibold text-primary">Cocoonvietnam</span>
               <span className="text-[10px] text-muted-foreground">Thuần chay Việt Nam</span>
             </div>
           </Link>

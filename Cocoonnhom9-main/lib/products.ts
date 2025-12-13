@@ -85,7 +85,7 @@ export const products: Product[] = [
     name: "Kem chống nắng bí đao",
     description: "Kem chống nắng thuần chay, bảo vệ da khỏi tia UV và không gây bết dính.",
     price: 333000,
-    image: "https://image.cocoonvietnam.com/uploads/z4389424980_1e574bdd58278206885aaafd9cf54665_f04a0b7f9b.jpg",
+    image: "https://filebroker-cdn.lazada.vn/kf/Sab91bea2e3c74ea0a72acd3467c02efb0.jpg",
     category: "Bảo vệ",
     volume: "50ml",
   },
